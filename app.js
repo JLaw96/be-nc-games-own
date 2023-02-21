@@ -3,7 +3,9 @@ const app = express();
 const  {
     getCategories
 } = require("./controllers/games.controllers");
-
+const {
+    handleCustomErrors,
+} = require("./controllers/errors.controllers");
 
 
 app.get("/api", (request, response) => {
@@ -11,5 +13,6 @@ app.get("/api", (request, response) => {
 });
 
 app.get("/api/categories", getCategories);
+
 
 module.exports = app;

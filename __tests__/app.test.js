@@ -23,4 +23,32 @@ describe("app", () => {
           });
       });
     });
+    describe("GET /api/categories", () => {
+      it("200: GET - should respond with an array containing the categories object.", () => {
+        return request(app)
+          .get("/api/categories")
+          .expect(200)
+          .then(({ body }) => {
+            const { categories } = body;
+            expect(categories).toBeInstanceOf(Array);
+            expect(categories).toHaveLength(4);
+          });
+      });
+    });
+    describe("GET /api/categories", () => {
+      it("200: GET - should respond with an array containing the categories object with the correct data types for the keys values.", () => {
+        return request(app)
+          .get("/api/categories")
+          .expect(200)
+          .then(({ body }) => {
+            const { categories } = body;
+            categories.forEach((category) => {
+              expect(category).toMatchObject({
+                slug: expect.any(String),
+                description: expect.any(String),
+              })
+            })
+          });
+      });
+    });
 });

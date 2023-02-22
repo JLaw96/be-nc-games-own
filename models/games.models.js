@@ -1,8 +1,9 @@
 const db = require ("../db/connection");
 
 function fetchCategories() {
-    return db.query("SELECT * FROM categories").then(({ rows: categories }) => {
-        return categories;
+    return db.query("SELECT * FROM categories").then((categories) => {
+        return categories.rows;
+        
     });
 };
 

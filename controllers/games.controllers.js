@@ -2,6 +2,8 @@ const {
     fetchCategories,
 } = require("../models/games.models");
 
+
+
 function getCategories(request, response, next) {
     fetchCategories()
     .then((categories) => {

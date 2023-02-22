@@ -42,6 +42,7 @@ describe("app", () => {
           .expect(200)
           .then(({ body }) => {
             const { categories } = body;
+            expect(categories).toHaveLength(4);
             categories.forEach((category) => {
               expect(category).toMatchObject({
                 slug: expect.any(String),
@@ -51,4 +52,12 @@ describe("app", () => {
           });
       });
     });
-});
+    describe("GET /api/categoriezz", () => {
+      it("404: GET - This test should respond with a 404 as the path we are searching for does not exist", () => {
+        return request(app)
+          .get("/api/categoriezz")
+          .expect(404);
+          });
+      });
+    });
+

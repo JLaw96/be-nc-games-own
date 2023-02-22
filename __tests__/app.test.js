@@ -56,8 +56,74 @@ describe("app", () => {
       it("404: GET - This test should respond with a 404 as the path we are searching for does not exist", () => {
         return request(app)
           .get("/api/categoriezz")
-          .expect(404);
-          });
+          .expect(404)
+          .then((response) => {
+            expect(response.statusCode).toBe(404);
+          })
+          }) 
+        
       });
+      describe("GET /api/reviews", () => {
+        it("200: GET - Should respond with an array containing the review data.", () => {
+          return request(app)
+            .get("/api/reviews")
+            .expect(200)
+            .then(({ body }) => {
+              const { reviews } = body;
+              expect(reviews).toBeInstanceOf(Array);
+              expect(reviews).toHaveLength(13);
+            });
+        });
+      });
+      describe("GET /api/reviews", () => {
+        it("200: GET - This request should respond with an array containing specific data types as the keys values", () => {
+          return request(app)
+            .get("/api/reviews")
+            .expect(200)
+            .then(({ body }) => {
+              const { reviews } = body;
+              expect(reviews).toHaveLength(13);
+              console.log(reviews, 'this is in the test file')
+              reviews.forEach((review) => {
+                expect(review).toMatchObject({
+                  review_id: expect.any(Number),
+                  title: expect.any(String),
+                  category: expect.any(String),
+                  designer: expect.any(String),
+                  owner: expect.any(String),
+                  review_img_url: expect.any(String),
+                  created_at: expect.any(String),
+                  votes: expect.any(Number)
+                })
+              })
+            });
+        });
+      });
+      describe("GET /api/reviews", () => {
+        it("200: GET - This request should contain a comment count within the reviews array containing the number of comments on that specific review id.", () => {
+          return request(app)
+            .get("/api/reviews")
+            .expect(200)
+            .then(({ body }) => {
+              const { reviews } = body;
+              expect(reviews).toHaveLength(13);
+              console.log(reviews, 'this is in the test file')
+              reviews.forEach((review) => {
+                expect(review).toMatchObject({
+                  comment_count: expect.any(Number)
+                })
+              })
+            });
+        });
+      });
+      describe("GET /api/reviewzz", () => {
+        it("404: GET - This test should respond with a 404 as the path we are searching for does not exist", () => {
+          return request(app)
+            .get("/api/reviewzz")
+            .expect(404)
+            .then((response) => {
+              expect(response.statusCode).toBe(404);
+            })
+            }) 
     });
-
+  });

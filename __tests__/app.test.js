@@ -134,4 +134,45 @@ describe("app", () => {
         });
     });
   });
+  describe("GET /api/reviews/:review_id", () => {
+    it("200: GET - This test should respond with the data for the specific review that has been requested in the path (in this case review 1)", () => {
+      return request(app)
+        .get("/api/reviews/1")
+        .expect(200)
+        .then(({ body }) => {
+          const { reviews } = body;
+          expect(reviews).toMatchObject({
+            title: expect.any(String),
+            designer: expect.any(String),
+            owner: expect.any(String),
+            review_img_url: expect.any(String),
+            review_body: expect.any(String),
+            review_id: expect.any(Number),
+            category: expect.any(String),
+            created_at: expect.any(String),
+            votes: expect.any(Number),
+          });
+        });
+    });
+  });
+  describe("GET /api/reviews/:review_id", () => {
+    it("404: GET - This test should return a 404 error with the correct message as our path/request contains a review_id that does not exist", () => {
+      return request(app)
+        .get("/api/reviews/500")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body).toHaveProperty("message", "review_id not found");
+        });
+    });
+  });
+  describe("GET /api/reviews/:review_id", () => {
+    it("400: GET - This test should return a 400 error with the correct message as our path/request contains a review_id that is not a number", () => {
+      return request(app)
+        .get("/api/reviews/IShouldNotBeHere")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body).toHaveProperty("message", "Bad Request");
+        });
+    });
+  });
 });

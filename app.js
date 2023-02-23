@@ -8,6 +8,7 @@ const {
   getCategories,
   getReviews,
   getReviewId,
+  getCommentsByReviewId,
 } = require("./controllers/games.controllers");
 
 app.get("/api", (request, response) => {
@@ -19,6 +20,8 @@ app.get("/api/categories", getCategories);
 app.get("/api/reviews", getReviews);
 
 app.get("/api/reviews/:review_id", getReviewId);
+
+app.get("/api/reviews/:review_id/comments", getCommentsByReviewId);
 
 app.use(handleCustomErrors);
 

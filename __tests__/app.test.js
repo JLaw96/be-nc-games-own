@@ -134,4 +134,37 @@ describe("app", () => {
         });
     });
   });
+  describe("GET /api/reviews/:review_id", () => {
+    it("200: GET - This test should respond with the data for the specific review that has been requested in the path (in this case review 1)", () => {
+      return request(app)
+        .get("/api/reviews/1")
+        .expect(200)
+        .then(({ body }) => {
+          const { reviews } = body;
+          expect(reviews).toEqual({
+            title: "Agricola",
+            designer: "Uwe Rosenberg",
+            owner: "mallionaire",
+            review_img_url:
+              "https://images.pexels.com/photos/974314/pexels-photo-974314.jpeg?w=700&h=700",
+            review_body: "Farmyard fun!",
+            review_id: 1,
+            category: "euro game",
+            created_at: "2021-01-18T10:00:20.514Z",
+            votes: 1,
+          });
+        });
+    });
+  });
+  describe("GET /api/reviews/:review_id", () => {
+    it("404: GET - This test should return a 404 error with the correct message as our path/request contains a review_id that does not exist", () => {
+      return request(app)
+        .get("/api/reviews/500")
+        .expect(404)
+        .then(({ body }) => {
+          console.log(body, "log in test file");
+          expect(body).toHaveProperty("message", "review_id not found");
+        });
+    });
+  });
 });

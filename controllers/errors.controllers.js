@@ -1,12 +1,11 @@
 function handleCustomErrors(error, request, response, next) {
-    if (error.status && error.message) {
-        console.log(error.status, 'error status in ec')
-        response.status(404).send({ message: 'Not Found' })
-    } else {
-        next(error);
-    };
-    };
+  if (error.status && error.message) {
+    response.status(error.status).send({ message: error.message });
+  } else {
+    next(error);
+  }
+}
 
-    module.exports = {
-        handleCustomErrors
-    };
+module.exports = {
+  handleCustomErrors,
+};

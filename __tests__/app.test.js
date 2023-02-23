@@ -142,6 +142,7 @@ describe("app", () => {
         .then(({ body }) => {
           const { reviews } = body;
           expect(reviews).toMatchObject({
+            review_id: expect.any(Number),
             title: expect.any(String),
             designer: expect.any(String),
             owner: expect.any(String),
@@ -169,6 +170,58 @@ describe("app", () => {
     it("400: GET - This test should return a 400 error with the correct message as our path/request contains a review_id that is not a number", () => {
       return request(app)
         .get("/api/reviews/IShouldNotBeHere")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body).toHaveProperty("message", "Bad Request");
+        });
+    });
+  });
+  describe("GET /api/reviews/:review_id/comments", () => {
+    it("200: GET - This test should return one object via the review_id that is being requested in the path.", () => {
+      return request(app)
+        .get("/api/reviews/3/comments")
+        .expect(200)
+        .then(({ body }) => {
+          const { comments } = body;
+          expect(comments[0]).toMatchObject({
+            comment_id: expect.any(Number),
+            votes: expect.any(Number),
+            created_at: expect.any(String),
+            author: expect.any(String),
+            body: expect.any(String),
+            review_id: expect.any(Number),
+          });
+        });
+    });
+  });
+  describe("GET /api/reviews/:review_id/comments", () => {
+    it("200: GET - This test should return an array of comments based on the given review_id and they should be in order of most recent comments first", () => {
+      return request(app)
+        .get("/api/reviews/3/comments")
+        .expect(200)
+        .then(({ body }) => {
+          const { comments } = body;
+          console.log(comments, "I am comments in the test file");
+          expect(comments).toHaveLength(3);
+          expect(comments).toBeInstanceOf(Array);
+          expect(comments).toBeSorted({ descending: true });
+        });
+    });
+  });
+  describe("GET /api/reviews/:review_id/comments", () => {
+    it("404: GET - This test should return an error message as the review_id that does not exist given in the path", () => {
+      return request(app)
+        .get("/api/reviews/200/comments")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body).toHaveProperty("message", "review_id not found");
+        });
+    });
+  });
+  describe("GET /api/reviews/:review_id/comments", () => {
+    it("400: GET - This test should return a 400 error with the correct message as our path/request contains a review_id that is not a number", () => {
+      return request(app)
+        .get("/api/reviews/IShouldNotBeHere/comments")
         .expect(400)
         .then(({ body }) => {
           expect(body).toHaveProperty("message", "Bad Request");

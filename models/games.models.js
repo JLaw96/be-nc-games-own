@@ -44,8 +44,27 @@ function fetchReviewId(review_id) {
     });
 }
 
+function fetchCommentsByReviewId(review_id) {
+  return db
+    .query(
+      "SELECT * FROM comments WHERE review_id = $1 ORDER BY created_at DESC",
+      [review_id]
+    )
+    .then((comments) => {
+      if (comments.rows.length === 0) {
+        return Promise.reject({
+          status: 404,
+          message: "review_id not found",
+        });
+      } else {
+        return comments.rows;
+      }
+    });
+}
+
 module.exports = {
   fetchCategories,
   fetchReviews,
   fetchReviewId,
+  fetchCommentsByReviewId,
 };

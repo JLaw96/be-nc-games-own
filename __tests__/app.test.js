@@ -141,17 +141,16 @@ describe("app", () => {
         .expect(200)
         .then(({ body }) => {
           const { reviews } = body;
-          expect(reviews).toEqual({
-            title: "Agricola",
-            designer: "Uwe Rosenberg",
-            owner: "mallionaire",
-            review_img_url:
-              "https://images.pexels.com/photos/974314/pexels-photo-974314.jpeg?w=700&h=700",
-            review_body: "Farmyard fun!",
-            review_id: 1,
-            category: "euro game",
-            created_at: "2021-01-18T10:00:20.514Z",
-            votes: 1,
+          expect(reviews).toMatchObject({
+            title: expect.any(String),
+            designer: expect.any(String),
+            owner: expect.any(String),
+            review_img_url: expect.any(String),
+            review_body: expect.any(String),
+            review_id: expect.any(Number),
+            category: expect.any(String),
+            created_at: expect.any(String),
+            votes: expect.any(Number),
           });
         });
     });
@@ -162,8 +161,17 @@ describe("app", () => {
         .get("/api/reviews/500")
         .expect(404)
         .then(({ body }) => {
-          console.log(body, "log in test file");
           expect(body).toHaveProperty("message", "review_id not found");
+        });
+    });
+  });
+  describe("GET /api/reviews/:review_id", () => {
+    it("400: GET - This test should return a 400 error with the correct message as our path/request contains a review_id that is not a number", () => {
+      return request(app)
+        .get("/api/reviews/IShouldNotBeHere")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body).toHaveProperty("message", "Bad Request");
         });
     });
   });

@@ -56,7 +56,6 @@ function addComment(request, response, next) {
       response.status(201).send({ comment });
     })
     .catch((error) => {
-      console.log(error, "error in controllers");
       next(error);
     });
 }

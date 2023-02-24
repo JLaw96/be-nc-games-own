@@ -251,7 +251,6 @@ describe("app", () => {
         .expect(201)
         .then(({ body }) => {
           const { comment } = body;
-          console.log(comment, "comment in tests file");
           expect(comment[2]).toEqual({
             comment_id: expect.any(Number),
             votes: 0,

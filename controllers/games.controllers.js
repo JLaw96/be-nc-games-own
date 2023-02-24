@@ -4,6 +4,7 @@ const {
   fetchReviewId,
   fetchCommentsByReviewId,
   sendComment,
+  amendReview,
 } = require("../models/games.models");
 
 function getCategories(request, response, next) {

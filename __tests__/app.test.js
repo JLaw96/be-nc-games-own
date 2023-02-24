@@ -297,4 +297,36 @@ describe("app", () => {
         });
     });
   });
+  describe("POST /api/reviews/:review_id/comments", () => {
+    it("400: POST - This test should return a 400 as the ID is invalid", () => {
+      const addComment = {
+        username: "bainesface",
+        body: "newBody",
+      };
+
+      return request(app)
+        .post("/api/reviews/banana/comments")
+        .send(addComment)
+        .expect(400)
+        .then(({ body }) => {
+          expect(body).toHaveProperty("message", "Bad Request");
+        });
+    });
+  });
+  describe("POST /api/reviews/:review_id/comments", () => {
+    it("404: POST - This test should return a 404 as the username is invalid", () => {
+      const addComment = {
+        username: "IAmInTheWrongPlace",
+        body: "newBody",
+      };
+
+      return request(app)
+        .post("/api/reviews/1/comments")
+        .send(addComment)
+        .expect(404)
+        .then(({ body }) => {
+          expect(body).toHaveProperty("message", "Username Not Found");
+        });
+    });
+  });
 });

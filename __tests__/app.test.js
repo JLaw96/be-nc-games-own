@@ -377,4 +377,53 @@ describe("app", () => {
         });
     });
   });
+  describe("PATCH /api/reviews/:review_id", () => {
+    it(" 201: PATCH - This test should return an amended review with the votes count decreased as the value we are passing is negative.", () => {
+      const newVote = { inc_votes: -1 };
+
+      return request(app)
+        .patch("/api/reviews/1")
+        .send(newVote)
+        .expect(201)
+        .then(({ body }) => {
+          expect(body.review).toEqual({
+            review_id: 1,
+            title: "Agricola",
+            designer: "Uwe Rosenberg",
+            owner: "mallionaire",
+            review_img_url: expect.any(String),
+            review_body: "Farmyard fun!",
+            category: "euro game",
+            created_at: expect.any(String),
+            votes: 0,
+          });
+        });
+    });
+  });
+  describe("PATCH /api/reviews/:review_id", () => {
+    it(" 404: PATCH - This test should return an error message as the review ID is valid but does not exist", () => {
+      const newVote = { inc_votes: 10 };
+
+      return request(app)
+        .patch("/api/reviews/500")
+        .send(newVote)
+        .expect(404)
+        .then(({ body }) => {
+          expect(body).toHaveProperty("message", "review_id Not Found");
+        });
+    });
+  });
+  describe("PATCH /api/reviews/:review_id", () => {
+    it(" 400: PATCH - This test should return an error message as the review_id is not valid.", () => {
+      const newVote = { inc_votes: 10 };
+
+      return request(app)
+        .patch("/api/reviews/banana")
+        .send(newVote)
+        .expect(400)
+        .then(({ body }) => {
+          expect(body).toHaveProperty("message", "Bad Request");
+        });
+    });
+  });
 });

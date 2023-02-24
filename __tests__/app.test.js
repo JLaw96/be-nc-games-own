@@ -329,6 +329,31 @@ describe("app", () => {
         });
     });
   });
+  describe("POST /api/reviews/:review_id/comments", () => {
+    it("201: POST - This test should return a 201 as the request and path are valid however, the extra property of votes should be ignored.", () => {
+      const addComment = {
+        username: "bainesface",
+        body: "newBody",
+        votes: 2,
+      };
+
+      return request(app)
+        .post("/api/reviews/1/comments")
+        .send(addComment)
+        .expect(201)
+        .then(({ body }) => {
+          const { comment } = body;
+          expect(comment[2]).toEqual({
+            comment_id: expect.any(Number),
+            votes: 0,
+            created_at: expect.any(String),
+            author: "bainesface",
+            body: "newBody",
+            review_id: 1,
+          });
+        });
+    });
+  });
   describe("PATCH /api/reviews/:review_id", () => {
     it(" 201: PATCH - This test should return an amended review with the votes count increased", () => {
       const newVote = { inc_votes: 10 };

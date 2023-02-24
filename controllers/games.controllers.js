@@ -4,6 +4,7 @@ const {
   fetchReviewId,
   fetchCommentsByReviewId,
   sendComment,
+  amendReview,
 } = require("../models/games.models");
 
 function getCategories(request, response, next) {
@@ -60,10 +61,23 @@ function addComment(request, response, next) {
     });
 }
 
+function updateReviewById(request, response, next) {
+  const { review_id } = request.params;
+  const inc_votes = request.body;
+  amendReview(inc_votes, review_id)
+    .then((review) => {
+      response.status(201).send({ review });
+    })
+    .catch((error) => {
+      next(error);
+    });
+}
+
 module.exports = {
   getCategories,
   getReviews,
   getReviewId,
   getCommentsByReviewId,
   addComment,
+  updateReviewById,
 };

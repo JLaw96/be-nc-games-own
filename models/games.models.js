@@ -110,10 +110,29 @@ function sendComment(newCommment, review_id) {
   return Promise.all([validId, validUsername, insertComment]);
 }
 
+function amendReview({ inc_votes }, review_id) {
+  return db
+    .query(
+      `UPDATE reviews SET votes = votes + $1 WHERE review_id = $2 RETURNING *;`,
+      [inc_votes, review_id]
+    )
+    .then((review) => {
+      if (review.rows.length === 0) {
+        return Promise.reject({
+          status: 404,
+          message: "review_id Not Found",
+        });
+      } else {
+        return review.rows[0];
+      }
+    });
+}
+
 module.exports = {
   fetchCategories,
   fetchReviews,
   fetchReviewId,
   fetchCommentsByReviewId,
   sendComment,
+  amendReview,
 };

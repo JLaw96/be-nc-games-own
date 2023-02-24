@@ -329,4 +329,27 @@ describe("app", () => {
         });
     });
   });
+  describe("PATCH /api/reviews/:review_id", () => {
+    it(" 201: PATCH - This test should return an amended review with the votes count increased", () => {
+      const newVote = { inc_votes: 10 };
+
+      return request(app)
+        .patch("/api/reviews/1")
+        .send(newVote)
+        .expect(201)
+        .then(({ body }) => {
+          expect(body.review).toEqual({
+            review_id: 1,
+            title: "Agricola",
+            designer: "Uwe Rosenberg",
+            owner: "mallionaire",
+            review_img_url: expect.any(String),
+            review_body: "Farmyard fun!",
+            category: "euro game",
+            created_at: expect.any(String),
+            votes: 11,
+          });
+        });
+    });
+  });
 });

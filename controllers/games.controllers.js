@@ -5,6 +5,7 @@ const {
   fetchCommentsByReviewId,
   sendComment,
   amendReview,
+  fetchUsers,
 } = require("../models/games.models");
 
 function getCategories(request, response, next) {
@@ -73,6 +74,16 @@ function updateReviewById(request, response, next) {
     });
 }
 
+function getUsers(request, response, next) {
+  fetchUsers()
+    .then((users) => {
+      response.status(200).send({ users });
+    })
+    .catch((error) => {
+      next(error);
+    });
+}
+
 module.exports = {
   getCategories,
   getReviews,
@@ -80,4 +91,5 @@ module.exports = {
   getCommentsByReviewId,
   addComment,
   updateReviewById,
+  getUsers,
 };

@@ -426,4 +426,48 @@ describe("app", () => {
         });
     });
   });
+  describe("GET /api/users", () => {
+    it(" 200: GET - This test should return an array containing the users data", () => {
+      const newVote = { inc_votes: 10 };
+
+      return request(app)
+        .get("/api/users")
+        .expect(200)
+        .then(({ body }) => {
+          const { users } = body;
+          expect(users).toBeInstanceOf(Array);
+          expect(users).toHaveLength(4);
+        });
+    });
+  });
+  describe("GET /api/users", () => {
+    it(" 200: GET - This test should return an array containing the users data", () => {
+      const newVote = { inc_votes: 10 };
+
+      return request(app)
+        .get("/api/users")
+        .expect(200)
+        .then(({ body }) => {
+          const { users } = body;
+          expect(users).toHaveLength(4);
+          users.forEach((user) => {
+            expect(user).toMatchObject({
+              username: expect.any(String),
+              name: expect.any(String),
+              avatar_url: expect.any(String),
+            });
+          });
+        });
+    });
+  });
+  describe("GET /api/users", () => {
+    it("404: GET - This test should respond with a 404 as the path we are searching for does not exist", () => {
+      return request(app)
+        .get("/api/userzz")
+        .expect(404)
+        .then((response) => {
+          expect(response.statusCode).toBe(404);
+        });
+    });
+  });
 });

@@ -128,6 +128,12 @@ function amendReview({ inc_votes }, review_id) {
     });
 }
 
+function fetchUsers() {
+  return db.query(`SELECT * FROM users;`).then((users) => {
+    return users.rows;
+  });
+}
+
 module.exports = {
   fetchCategories,
   fetchReviews,
@@ -135,4 +141,5 @@ module.exports = {
   fetchCommentsByReviewId,
   sendComment,
   amendReview,
+  fetchUsers,
 };

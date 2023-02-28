@@ -11,6 +11,7 @@ const {
   getCommentsByReviewId,
   addComment,
   updateReviewById,
+  getUsers,
 } = require("./controllers/games.controllers");
 
 app.get("/api", (request, response) => {
@@ -30,6 +31,8 @@ app.get("/api/reviews/:review_id/comments", getCommentsByReviewId);
 app.post("/api/reviews/:review_id/comments", addComment);
 
 app.patch("/api/reviews/:review_id", updateReviewById);
+
+app.get("/api/users", getUsers);
 
 app.use(handleCustomErrors);
 

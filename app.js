@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const {
   handleCustomErrors,
   handlePsqlErrors,
@@ -13,6 +14,7 @@ const {
   updateReviewById,
   getUsers,
 } = require("./controllers/games.controllers");
+app.use(cors());
 
 app.get("/api", (request, response) => {
   response.status(200).send({ message: "All okay" });

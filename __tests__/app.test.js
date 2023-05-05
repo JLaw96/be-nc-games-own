@@ -470,4 +470,15 @@ describe("app", () => {
         });
     });
   });
+  describe("GET /api/reviews", () => {
+    it("200: GET - Using jest-sorted, this test should confirm that the response from our request is in descending order.", () => {
+      return request(app)
+        .get("/api/reviews")
+        .expect(200)
+        .then(({ body }) => {
+          const { reviews } = body;
+          expect(reviews).toBeSorted({ descending: true });
+        });
+    });
+  });
 });

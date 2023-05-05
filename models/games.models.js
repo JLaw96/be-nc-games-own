@@ -6,32 +6,84 @@ function fetchCategories() {
   });
 }
 
-function fetchReviews() {
+function fetchReviews(category, sort_by = "created_at", order = "DESC") {
+  let queryString = `SELECT
+  reviews.owner, 
+  reviews.title, 
+  reviews.review_id, 
+  reviews.category, 
+  reviews.review_img_url, 
+  reviews.created_at, 
+  reviews.votes, 
+  reviews.designer,
+  COUNT(comments.comment_id)::int AS comment_count
+  FROM reviews LEFT JOIN comments 
+  ON reviews.review_id = comments.review_id `;
+
+  const queryValues = [];
+  const order_by = order.toUpperCase();
+  const validSortColumns = [
+    "owner",
+    "title",
+    "review_id",
+    "category",
+    "designer",
+    "created_at",
+    "votes",
+    "comment_count",
+  ];
+
+  const validOrders = ["ASC", "DESC"];
+
+  if (!validSortColumns.includes(sort_by)) {
+    return Promise.reject({
+      status: 404,
+      message: "Invalid sort query",
+    });
+  }
+  if (!validOrders.includes(order_by)) {
+    return Promise.reject({
+      status: 404,
+      message: "Invalid order query",
+    });
+  }
+
+  if (category !== undefined) {
+    queryValues.push(category);
+    queryString += ` WHERE reviews.category = $1 GROUP BY reviews.review_id ORDER BY ${sort_by} ${order_by}`;
+  } else {
+    queryString += ` GROUP BY reviews.review_id ORDER BY ${sort_by} ${order_by}`;
+  }
+
   return db
-    .query(
-      `SELECT 
-        reviews.owner, 
-        reviews.title, 
-        reviews.review_id, 
-        reviews.category, 
-        reviews.review_img_url, 
-        reviews.created_at, 
-        reviews.votes, 
-        reviews.designer,
-        COUNT(comments.comment_id)::int AS comment_count
-        FROM reviews LEFT JOIN comments
-        ON reviews.review_id = comments.review_id
-        GROUP BY reviews.review_id
-        ORDER BY reviews.created_at DESC;`
-    )
-    .then((reviews) => {
-      return reviews.rows;
+    .query(`SELECT * FROM categories;`)
+    .then((result) => {
+      if (
+        !result.rows.map((cat) => cat.slug).includes(category) &&
+        category !== undefined
+      ) {
+        return Promise.reject({ status: 404, message: "Category Not Found" });
+      }
+    })
+    .then(() => {
+      return db.query(queryString, queryValues);
+    })
+    .then((result) => {
+      return result.rows;
     });
 }
 
 function fetchReviewId(review_id) {
   return db
-    .query("SELECT * FROM reviews WHERE review_id = $1;", [review_id])
+    .query(
+      `
+      SELECT reviews.*,
+             (SELECT COUNT(*) FROM comments WHERE review_id = $1) AS comment_count
+      FROM reviews
+      WHERE review_id = $1;
+    `,
+      [review_id]
+    )
     .then((reviews) => {
       if (reviews.rows.length === 0) {
         return Promise.reject({
@@ -110,6 +162,19 @@ function sendComment(newCommment, review_id) {
   return Promise.all([validId, validUsername, insertComment]);
 }
 
+function removeComment(comment_id) {
+  return db
+    .query("DELETE FROM comments WHERE comment_id = $1", [comment_id])
+    .then((comment) => {
+      if (comment.rowCount === 0) {
+        return Promise.reject({
+          status: 404,
+          message: `The comment ID (${comment_id} you entered was not found)`,
+        });
+      }
+    });
+}
+
 function amendReview({ inc_votes }, review_id) {
   return db
     .query(
@@ -142,4 +207,5 @@ module.exports = {
   sendComment,
   amendReview,
   fetchUsers,
+  removeComment,
 };

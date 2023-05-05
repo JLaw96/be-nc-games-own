@@ -6,6 +6,7 @@ const {
   sendComment,
   amendReview,
   fetchUsers,
+  removeComment,
 } = require("../models/games.models");
 
 function getCategories(request, response, next) {
@@ -19,7 +20,8 @@ function getCategories(request, response, next) {
 }
 
 function getReviews(request, response, next) {
-  fetchReviews()
+  const { category, sort_by, order } = request.query;
+  fetchReviews(category, sort_by, order)
     .then((reviews) => {
       response.status(200).send({ reviews });
     })
@@ -62,6 +64,17 @@ function addComment(request, response, next) {
     });
 }
 
+function deleteCommentByCommentId(request, response, next) {
+  const { comment_id } = request.params;
+  removeComment(comment_id)
+    .then((comment) => {
+      response.status(201).send({ comment });
+    })
+    .catch((error) => {
+      next(error);
+    });
+}
+
 function updateReviewById(request, response, next) {
   const { review_id } = request.params;
   const inc_votes = request.body;
@@ -92,4 +105,5 @@ module.exports = {
   addComment,
   updateReviewById,
   getUsers,
+  deleteCommentByCommentId,
 };

@@ -30,5 +30,121 @@
         }
       ]
     }
+  },
+  "GET /api/reviews/review_id": {
+    "description": "serves an array of the requested review",
+    "queries": [],
+    "exampleAPI": "/api/reviews/1",
+    "exampleResponse": {
+      "review": [
+        {
+          "review_id": 1,
+          "title": "Culture a Love of Agriculture With Agricola",
+          "category": "strategy",
+          "designer": "Uwe Rosenberg",
+          "owner": "tickle122",
+          "review_body": "You could sum up Agricola with the simple phrase 'Farmyard Fun' but the mechanics and game play add so much more than that. You'll find yourself torn between breeding pigs, or sowing crops. Its joyeous and rewarding and it makes you think of time spent outside, which is much harder to do these days!",
+          "review_img_url": "https://images.pexels.com/photos/974314/pexels-photo-974314.jpeg?w=700&h=700",
+          "created_at": "2021-01-18T10:00:20.514Z",
+          "votes": 1,
+          "comment_count": 3
+        }
+      ]
+    }
+  },
+  "GET /api/reviews/review_id/comments": {
+    "description": "serves an array of comments related to a review",
+    "queries": [],
+    "exampleAPI": "/api/reviews/1/comments",
+    "exampleResponse": {
+      "comments": [
+        {
+          "comment_id": 59,
+          "body": "Quis duis mollit ad enim deserunt.",
+          "review_id": 1,
+          "author": "jessjelly",
+          "votes": 3,
+          "created_at": "2021-03-27T19:48:58.110Z"
+        }
+      ]
+    }
+  },
+  "POST /api/reviews/review_id/comments": {
+    "description": "takes an object containing the details for a new comment and serves an array containing the new comment",
+    "queries": [],
+    "exampleAPI": "/api/reviews/1/comments",
+    "addComment": {
+      "username": "testName",
+      "body": "newBody",
+      "votes": 0
+    },
+    "exampleResponse": {
+      "comments": [
+        {
+          "comment_id": "(new number)",
+          "body": "newBody",
+          "review_id": 1,
+          "author": "testName",
+          "votes": 0,
+          "created_at": "(new date)"
+        }
+      ]
+    }
+  },
+  "PATCH /api/reviews/review_id": {
+    "description": "takes an object containing the specified number of votes and serves an array containing the updated review",
+    "queries": [],
+    "reviewUpdate": { "inc_votes": 5 },
+    "exampleAPI": "/api/reviews/1",
+    "exampleResponseBeforeChange": {
+      "review": [
+        {
+          "review_id": 1,
+          "title": "Culture a Love of Agriculture With Agricola",
+          "category": "strategy",
+          "designer": "Uwe Rosenberg",
+          "owner": "tickle122",
+          "review_body": "You could sum up Agricola with the simple phrase 'Farmyard Fun' but the mechanics and game play add so much more than that. You'll find yourself torn between breeding pigs, or sowing crops. Its joyeous and rewarding and it makes you think of time spent outside, which is much harder to do these days!",
+          "review_img_url": "https://images.pexels.com/photos/974314/pexels-photo-974314.jpeg?w=700&h=700",
+          "created_at": "2021-01-18T10:00:20.514Z",
+          "votes": 6,
+          "comment_count": 3
+        }
+      ]
+    },
+    "exampleResponseAfterChange": {
+      "review": [
+        {
+          "review_id": 1,
+          "title": "Culture a Love of Agriculture With Agricola",
+          "category": "strategy",
+          "designer": "Uwe Rosenberg",
+          "owner": "tickle122",
+          "review_body": "You could sum up Agricola with the simple phrase 'Farmyard Fun' but the mechanics and game play add so much more than that. You'll find yourself torn between breeding pigs, or sowing crops. Its joyeous and rewarding and it makes you think of time spent outside, which is much harder to do these days!",
+          "review_img_url": "https://images.pexels.com/photos/974314/pexels-photo-974314.jpeg?w=700&h=700",
+          "created_at": "2021-01-18T10:00:20.514Z",
+          "votes": 6,
+          "comment_count": 3
+        }
+      ]
+    }
+  },
+  "GET /api/users": {
+    "description": "serves an array of all users",
+    "queries": [],
+    "exampleResponse": {
+      "users": [
+        {
+          "username": "tickle122",
+          "name": "Tom Tickle",
+          "avatar_url": "https://vignette.wikia.nocookie.net/mrmen/images/d/d6/Mr-Tickle-9a.png/revision/latest?cb=20180127221953"
+        },
+        {
+          "username": "grumpy19",
+          "name": "Paul Grump",
+          "avatar_url": "https://vignette.wikia.nocookie.net/mrmen/images/7/78/Mr-Grumpy-3A.PNG/revision/latest?cb=20170707233013"
+        }
+      ]
+    }
   }
 }

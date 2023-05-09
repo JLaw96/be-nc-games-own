@@ -20,8 +20,10 @@ The database gives you the ability to access reviews and comments from other use
 
 In order to use/developer this database further first you will need to:
 
-    1. Fork this repository to your own GitHub account
+1. Fork this repository to your own GitHub account
 
-    2. Clone it locally to your machine
+2. Clone it locally to your machine
 
-    ``` git clone (insert your url for the repository here)
+   ```git clone (insert your url for the repository here)
+
+   ```

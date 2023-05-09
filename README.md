@@ -24,7 +24,6 @@ In order to use/developer this database further first you will need to:
 
 2. Clone it locally to your machine
 
-   ````
-
-   ``` git clone (insert your url for the repository here)
-   ````
+   ```
+    git clone (insert your url for the repository here)
+   ```

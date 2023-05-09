@@ -42,6 +42,8 @@ In order to use/developer this database further first you will need to:
     npm run setup-dbs
 ```
 
+- Then use....
+
 ```
     npm run seed
 ```

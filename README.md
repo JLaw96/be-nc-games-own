@@ -70,4 +70,4 @@ In order to use/developer this database further first you will need to:
 
 # Finally
 
-That covers everything you need to know for this database. You can now use applications such as [Insomnia](https://insomnia.rest/) in order to test the endpoints
+That covers everything you need to know for this database. You can now use applications such as [Insomnia](https://insomnia.rest/) in order to test the endpoints.

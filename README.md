@@ -24,6 +24,48 @@ In order to use/developer this database further first you will need to:
 
 2. Clone it locally to your machine
 
-   ```
-    git clone (insert your url for the repository here)
-   ```
+```
+    git clone YourUrlHere
+```
+
+3. You will need to install the dependencies listed within the package.json. To do this, using the following command;
+
+```
+    npm install
+```
+
+4. Next, you will need to make sure you have followed the instructions above for the .env files
+
+5. You will then need to run the database in order to ensure the data has been generated you can do so with the following commands:
+
+```
+    npm run setup-dbs
+```
+
+```
+    npm run seed
+```
+
+6. In order to test the database to ensure it is working correctly, you can use:
+
+- npm test utils.test.js for the utility function
+
+```
+    npm test utils.test.js
+```
+
+- npm test app.test.js for the endpoints
+
+```
+    npm test app.test.js
+```
+
+- npm test to test both files listed above
+
+```
+    npm test
+```
+
+# Finally
+
+That covers everything you need to know for this database. You can now use applications such as [Insomnia](https://insomnia.rest/) in order to test the endpoints

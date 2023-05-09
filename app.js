@@ -13,6 +13,7 @@ const {
   addComment,
   updateReviewById,
   getUsers,
+  deleteCommentByCommentId,
 } = require("./controllers/games.controllers");
 app.use(cors());
 
@@ -35,6 +36,8 @@ app.post("/api/reviews/:review_id/comments", addComment);
 app.patch("/api/reviews/:review_id", updateReviewById);
 
 app.get("/api/users", getUsers);
+
+app.delete("/api/comments/:comment_id", deleteCommentByCommentId);
 
 app.use(handleCustomErrors);
 

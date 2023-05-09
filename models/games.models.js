@@ -169,7 +169,7 @@ function removeComment(comment_id) {
       if (comment.rowCount === 0) {
         return Promise.reject({
           status: 404,
-          message: `The comment ID (${comment_id} you entered was not found)`,
+          message: `The comment ID (${comment_id}) you entered was not found`,
         });
       }
     });

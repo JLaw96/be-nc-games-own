@@ -17,3 +17,11 @@ This project is a web-based database that allows users to access information abo
 The database gives you the ability to access reviews and comments from other users. Users can view ratings and reviews for different games. In addition to reviews and comments, the database also includes information about individual users.
 
 ## How To Use The Database - Instructions
+
+In order to use/developer this database further first you will need to:
+
+    1. Fork this repository to your own GitHub account
+
+    2. Clone it locally to your machine
+
+    ``` git clone (insert your url for the repository here)
